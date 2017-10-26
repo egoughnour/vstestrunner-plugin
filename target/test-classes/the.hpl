@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Group-Id: org.jenkins-ci.plugins
+Short-Name: vstestrunner
+Long-Name: Jenkins VSTest Runner plugin
+Url: http://wiki.jenkins-ci.org/display/JENKINS/VsTestRunner+Plugin
+Plugin-Version: 1.0.5
+Hudson-Version: 1.554.3
+Jenkins-Version: 1.554.3
+Plugin-Developers: Erik Goughnour:egoughnour:,Yasuyuki Saito:yasu_s:
+Support-Dynamic-Loading: true
+Libraries: C:\src\eclipse\workspace\vstestrunner-plugin\target\classes
+Resource-Path: C:\src\eclipse\workspace\vstestrunner-plugin\src\main\w
+ ebapp
+

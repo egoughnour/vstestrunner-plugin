@@ -1,0 +1,201 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+    <f:entry title="${%Version}">
+        <select class="setting-input" name="VsTestBuilder.vsTestName">
+            <option>(Default)</option>
+            <j:forEach var="inst" items="${descriptor.installations}">
+                <f:option selected="${inst.name==instance.VsTestName}">${inst.name}</f:option>
+            </j:forEach>
+        </select>
+    </f:entry>
+
+    <f:entry title="${%TestFiles}" field="testFiles">
+        <f:expandableTextbox name="VsTestBuilder.testFiles" value="${instance.testFiles}" />
+    </f:entry>
+
+    <f:entry title="${%Settings}" field="settings">
+        <f:textbox name="VsTestBuilder.settings" value="${instance.settings}" />
+    </f:entry>
+
+    <f:entry title="${%Tests}" field="tests">
+        <f:textbox name="VsTestBuilder.tests" value="${instance.tests}" />
+    </f:entry>
+
+    <f:entry title="${%TestCaseFilter}" field="testCaseFilter">
+        <f:textbox name="VsTestBuilder.testCaseFilter" value="${instance.testCaseFilter}" />
+    </f:entry>
+
+    <f:entry title="${%Enablecodecoverage}" field="enablecodecoverage">
+        <f:checkbox name="VsTestBuilder.enablecodecoverage" value="${instance.enablecodecoverage}"
+                    checked="${instance.enablecodecoverage}" default="true" />
+    </f:entry>
+
+    <f:advanced>
+
+        <f:entry title="${%InIsolation}" field="inIsolation">
+            <f:checkbox name="VsTestBuilder.inIsolation" value="${instance.inIsolation}"
+                        checked="${instance.inIsolation}" default="false" />
+        </f:entry>
+
+        <f:entry title="${%UseVsixExtensions}" field="useVsixExtensions">
+            <f:checkbox name="VsTestBuilder.useVsixExtensions" value="${instance.useVsixExtensions}"
+                        checked="${instance.useVsixExtensions}" default="false" />
+        </f:entry>
+
+		<f:entry title="${%UseVs2017Plus}" field="useVs2017Plus">
+            <f:checkbox name="VsTestBuilder.useVs2017Plus" value="${instance.useVs2017Plus}"
+                        checked="${instance.useVs2017Plus}" default="false" />
+        </f:entry>
+        <f:entry title="${%Platform}" field="platform">
+            <br />
+            <label>
+                <f:radio name="VsTestBuilder.platform" value="x86" id="platform.x86"
+                         checked="${instance.platform == 'x86'}"
+                         onclick="$('platform.otherPlatform').disabled=true" />
+                ${%Platform.x86}
+            </label>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.platform" value="x64" id="platform.x64"
+                         checked="${instance.platform == 'x64'}"
+                         onclick="$('platform.otherPlatform').disabled=true"  />
+                ${%Platform.x64}
+            </label>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.platform" value="ARM" id="platform.ARM"
+                         checked="${instance.platform == 'ARM'}"
+                         onclick="$('platform.otherPlatform').disabled=true" />
+                ${%Platform.ARM}
+            </label>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.platform" value="Other" id="platform.Other"
+                                 checked="${instance.platform == 'Other'}"
+                                 onclick="$('platform.otherPlatform').disabled=false" />
+                ${%Platform.Other}
+            </label>
+            <st:nbsp /><st:nbsp /><st:nbsp /><st:nbsp />
+            <j:choose>
+                <j:when test="${instance.platform == 'Other'}">
+                    <f:textbox name="VsTestBuilder.otherPlatform" value="${instance.otherPlatform}" id="platform.otherPlatform" />
+                </j:when>
+                <j:otherwise>
+                    <f:textbox name="VsTestBuilder.otherPlatform" value="${instance.otherPlatform}" id="platform.otherPlatform" disabled="disabled" />
+                </j:otherwise>
+            </j:choose>
+            <br />
+
+            <label>
+                 <f:radio name="VsTestBuilder.platform" value="" id="platform.None"
+                         checked="${empty instance.platform}"
+                         onclick="$('platform.otherPlatform').disabled=true" />
+                 ${%Platform.None}
+            </label>
+            <br />
+        </f:entry>
+
+        <f:entry title="${%Framework}" field="framework">
+            <br />
+            <label>
+                <f:radio name="VsTestBuilder.framework" value="framework35" id="framework.35"
+                         checked="${instance.framework == 'framework35'}"
+                         onclick="$('framework.otherFramework').disabled=true" />
+                ${%Framework.35}
+            </label>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.framework" value="framework40" id="framework.40"
+                         checked="${instance.framework == 'framework40'}"
+                         onclick="$('framework.otherFramework').disabled=true" />
+                ${%Framework.40}
+            </label>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.framework" value="framework45" id="framework.45"
+                         checked="${instance.framework == 'framework45'}"
+                         onclick="$('framework.otherFramework').disabled=true" />
+                ${%Framework.45}
+            </label>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.framework" value="Other" id="framework.Other"
+                         checked="${instance.framework == 'Other'}"
+                         onclick="$('framework.otherFramework').disabled=false" />
+                ${%Framework.Other}
+            </label>
+            <st:nbsp /><st:nbsp /><st:nbsp /><st:nbsp />
+            <j:choose>
+                <j:when test="${instance.framework == 'Other'}">
+                    <f:textbox name="VsTestBuilder.otherFramework" value="${instance.otherFramework}" id="framework.otherFramework" />
+                </j:when>
+                <j:otherwise>
+                    <f:textbox name="VsTestBuilder.otherFramework" value="${instance.otherFramework}" id="framework.otherFramework" disabled="disabled" />
+                </j:otherwise>
+            </j:choose>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.framework" value="" id="framework.None"
+                         checked="${empty instance.framework}"
+                         onclick="$('framework.otherFramework').disabled=true" />
+                ${%Framework.None}
+            </label>
+            <br />
+        </f:entry>
+
+        <f:entry title="${%Logger}" field="logger">
+            <br />
+            <label>
+                <f:radio name="VsTestBuilder.logger" value="trx" id="logger.Trx"
+                         checked="${instance.logger == 'trx' || instance.logger == null}"
+                         onclick="$('logger.otherLogger').disabled=true" />
+                ${%Logger.Trx}
+            </label>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.logger" value="Other" id="logger.Other"
+                         checked="${instance.logger == 'Other'}"
+                         onclick="$('logger.otherLogger').disabled=false" />
+                ${%Logger.Other}
+            </label>
+            <st:nbsp /><st:nbsp /><st:nbsp /><st:nbsp />
+            <j:choose>
+                <j:when test="${instance.logger == 'Other'}">
+                    <f:textbox name="VsTestBuilder.otherLogger" value="${instance.otherLogger}" id="logger.otherLogger" />
+                </j:when>
+                <j:otherwise>
+                    <f:textbox name="VsTestBuilder.otherLogger" value="${instance.otherLogger}" id="logger.otherLogger" disabled="disabled" />
+                </j:otherwise>
+            </j:choose>
+            <br />
+
+            <label>
+                <f:radio name="VsTestBuilder.logger" value="" id="logger.None"
+                         checked="${instance.logger == ''}"
+                         onclick="$('logger.otherLogger').disabled=true" />
+                ${%Logger.None}
+            </label>
+            <br />
+        </f:entry>
+
+        <f:entry title="${%CommandLineArguments}" field="cmdLineArgs">
+            <f:textbox name="VsTestBuilder.cmdLineArgs" value="${instance.cmdLineArgs}" />
+        </f:entry>
+
+        <f:entry title="${%FailBuild}" field="failBuild">
+            <f:checkbox name="VsTestBuilder.failBuild" value="${instance.failBuild}"
+                        checked="${instance.failBuild}" default="true" />
+        </f:entry>
+
+    </f:advanced>
+
+</j:jelly>
