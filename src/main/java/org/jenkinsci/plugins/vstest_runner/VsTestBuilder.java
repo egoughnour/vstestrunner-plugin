@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Nonnull;
 
 import hudson.CopyOnWrite;
 import hudson.EnvVars;
@@ -22,6 +23,7 @@ import hudson.model.Result;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.Builder;
+import hudson.tasks.BuildStep;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tools.ToolInstallation;
 import hudson.util.ArgumentListBuilder;
@@ -295,7 +297,7 @@ public class VsTestBuilder extends Builder implements SimpleBuildStep {
             load();
         }
 
-        public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
+        public boolean isApplicable(Class jobType) {
             return true;
         }
 
@@ -632,7 +634,17 @@ public class VsTestBuilder extends Builder implements SimpleBuildStep {
     @Override
 	public void perform(Run<?, ?> build, FilePath filePath, Launcher launcher, TaskListener listener)
 			throws InterruptedException, IOException {
+    	try {
 		_perform(build, filePath, launcher, build.getEnvironment(listener), listener);
+    	}
+    	catch(InterruptedException ex)
+    	{
+    		throw ex;
+    	}
+    	catch(Exception ex)
+    	{
+    		throw new IOException(ex.getMessage());
+    	}
 		
 	}
     
@@ -641,9 +653,14 @@ public class VsTestBuilder extends Builder implements SimpleBuildStep {
     		throws InterruptedException, IOException {
     	try {
     		return _perform(build, build.getWorkspace(), launcher, build.getEnvironment(listener), listener);
-    	}catch(Exception ex)
+    	}
+    	catch(InterruptedException ex)
     	{
-    		return true;
+    		throw ex;
+    	}
+    	catch(Exception ex)
+    	{
+    		throw new IOException(ex.getMessage());
     	}
     }
 
